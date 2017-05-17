@@ -36,9 +36,11 @@
             this.nud_ip2 = new System.Windows.Forms.NumericUpDown();
             this.nud_ip1 = new System.Windows.Forms.NumericUpDown();
             this.groupBox_status = new System.Windows.Forms.GroupBox();
-            this.statusShow = new System.Windows.Forms.TextBox();
+            this.tb_statuShow = new System.Windows.Forms.TextBox();
             this.btn_start = new System.Windows.Forms.Button();
             this.btn_stop = new System.Windows.Forms.Button();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.taal_status = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox_setting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_port)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ip4)).BeginInit();
@@ -46,6 +48,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_ip2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ip1)).BeginInit();
             this.groupBox_status.SuspendLayout();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox_setting
@@ -73,6 +76,7 @@
             0,
             0});
             this.nud_port.Name = "nud_port";
+            this.nud_port.ReadOnly = true;
             this.nud_port.Size = new System.Drawing.Size(50, 22);
             this.nud_port.TabIndex = 5;
             this.nud_port.Value = global::Server.Properties.Settings.Default.port;
@@ -144,7 +148,7 @@
             // 
             // groupBox_status
             // 
-            this.groupBox_status.Controls.Add(this.statusShow);
+            this.groupBox_status.Controls.Add(this.tb_statuShow);
             this.groupBox_status.Location = new System.Drawing.Point(12, 106);
             this.groupBox_status.Name = "groupBox_status";
             this.groupBox_status.Size = new System.Drawing.Size(442, 459);
@@ -152,14 +156,15 @@
             this.groupBox_status.TabStop = false;
             this.groupBox_status.Text = "Status";
             // 
-            // statusShow
+            // tb_statuShow
             // 
-            this.statusShow.Location = new System.Drawing.Point(7, 22);
-            this.statusShow.Multiline = true;
-            this.statusShow.Name = "statusShow";
-            this.statusShow.ReadOnly = true;
-            this.statusShow.Size = new System.Drawing.Size(429, 431);
-            this.statusShow.TabIndex = 0;
+            this.tb_statuShow.Location = new System.Drawing.Point(7, 22);
+            this.tb_statuShow.Multiline = true;
+            this.tb_statuShow.Name = "tb_statuShow";
+            this.tb_statuShow.ReadOnly = true;
+            this.tb_statuShow.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tb_statuShow.Size = new System.Drawing.Size(429, 431);
+            this.tb_statuShow.TabIndex = 0;
             // 
             // btn_start
             // 
@@ -169,6 +174,7 @@
             this.btn_start.TabIndex = 2;
             this.btn_start.Text = "Start";
             this.btn_start.UseVisualStyleBackColor = true;
+            this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
             // 
             // btn_stop
             // 
@@ -179,11 +185,29 @@
             this.btn_stop.Text = "Stop";
             this.btn_stop.UseVisualStyleBackColor = true;
             // 
+            // statusStrip
+            // 
+            this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.taal_status});
+            this.statusStrip.Location = new System.Drawing.Point(0, 635);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(466, 25);
+            this.statusStrip.TabIndex = 4;
+            this.statusStrip.Text = "statusStrip1";
+            // 
+            // taal_status
+            // 
+            this.taal_status.Name = "taal_status";
+            this.taal_status.Size = new System.Drawing.Size(151, 20);
+            this.taal_status.Text = "toolStripStatusLabel1";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(466, 644);
+            this.ClientSize = new System.Drawing.Size(466, 660);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.btn_stop);
             this.Controls.Add(this.btn_start);
             this.Controls.Add(this.groupBox_status);
@@ -202,7 +226,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_ip1)).EndInit();
             this.groupBox_status.ResumeLayout(false);
             this.groupBox_status.PerformLayout();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -216,9 +243,11 @@
         private System.Windows.Forms.NumericUpDown nud_ip2;
         private System.Windows.Forms.NumericUpDown nud_ip1;
         private System.Windows.Forms.GroupBox groupBox_status;
-        private System.Windows.Forms.TextBox statusShow;
+        private System.Windows.Forms.TextBox tb_statuShow;
         private System.Windows.Forms.Button btn_start;
         private System.Windows.Forms.Button btn_stop;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel taal_status;
     }
 }
 
