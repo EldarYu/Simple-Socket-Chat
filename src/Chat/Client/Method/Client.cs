@@ -6,24 +6,32 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Threading;
 using System.Net.Sockets;
+using System.Windows.Forms;
 
 namespace Client.Method
 {
-    public class Client :Core.Net.Client
+    public class Client : Core.Net.Client
     {
         public Client(IPEndPoint ipEndPoint) : base(ipEndPoint) { }
-        
+        public ControlWriter Write = ControlWriter.GetInstance();
+
         public bool Run()
         {
             if (!this.Connect())
                 return false;
             this.Processer = new Thread(ProcessData);
+            this.Processer.Start();
             return true;
         }
 
-        public void Send<T>(Socket socket, Core.Protocol.Message<T> msg)
+        public void StopRun()
         {
-            this.SerializeData<T>(socket, msg);
+            this.Stop();
+        }
+
+        public void Send<T>(Core.Protocol.Message<T> msg)
+        {
+            this.SerializeData<T>(this.ClientSocket, msg);
         }
 
         private void ProcessData()
@@ -33,7 +41,7 @@ namespace Client.Method
                 try
                 {
                     Core.Protocol.Message<string> msg = this.DeserializeData<string>(this.ClientSocket);
-
+                    Write.SetMsg(msg.Content);
                 }
                 catch (SocketException e)
                 {

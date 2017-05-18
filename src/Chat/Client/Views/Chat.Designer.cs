@@ -38,12 +38,9 @@
             this.tb_message = new System.Windows.Forms.TextBox();
             this.btn_sendMsg = new System.Windows.Forms.Button();
             this.tb_sendMsg = new System.Windows.Forms.TextBox();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.tssl_status = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox_userList.SuspendLayout();
             this.groupBox_chatRoom.SuspendLayout();
             this.groupBox_message.SuspendLayout();
-            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox_userList
@@ -129,7 +126,6 @@
             this.tb_message.ReadOnly = true;
             this.tb_message.Size = new System.Drawing.Size(590, 379);
             this.tb_message.TabIndex = 3;
-            this.tb_message.Text = "1233\r\n1231\r\n546\r\n";
             // 
             // btn_sendMsg
             // 
@@ -139,6 +135,7 @@
             this.btn_sendMsg.TabIndex = 2;
             this.btn_sendMsg.Text = "Send";
             this.btn_sendMsg.UseVisualStyleBackColor = true;
+            this.btn_sendMsg.Click += new System.EventHandler(this.btn_sendMsg_Click);
             // 
             // tb_sendMsg
             // 
@@ -148,29 +145,11 @@
             this.tb_sendMsg.Size = new System.Drawing.Size(504, 71);
             this.tb_sendMsg.TabIndex = 1;
             // 
-            // statusStrip
-            // 
-            this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tssl_status});
-            this.statusStrip.Location = new System.Drawing.Point(0, 610);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(889, 25);
-            this.statusStrip.TabIndex = 3;
-            this.statusStrip.Text = "statusStrip1";
-            // 
-            // tssl_status
-            // 
-            this.tssl_status.Name = "tssl_status";
-            this.tssl_status.Size = new System.Drawing.Size(151, 20);
-            this.tssl_status.Text = "toolStripStatusLabel1";
-            // 
             // Chat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(889, 635);
-            this.Controls.Add(this.statusStrip);
+            this.ClientSize = new System.Drawing.Size(889, 620);
             this.Controls.Add(this.groupBox_message);
             this.Controls.Add(this.groupBox_chatRoom);
             this.Controls.Add(this.groupBox_userList);
@@ -179,15 +158,13 @@
             this.Name = "Chat";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Chat";
+            this.Load += new System.EventHandler(this.Chat_Load);
             this.groupBox_userList.ResumeLayout(false);
             this.groupBox_chatRoom.ResumeLayout(false);
             this.groupBox_chatRoom.PerformLayout();
             this.groupBox_message.ResumeLayout(false);
             this.groupBox_message.PerformLayout();
-            this.statusStrip.ResumeLayout(false);
-            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -203,7 +180,5 @@
         private System.Windows.Forms.Button btn_sendMsg;
         private System.Windows.Forms.TextBox tb_sendMsg;
         private System.Windows.Forms.TextBox tb_message;
-        private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel tssl_status;
     }
 }

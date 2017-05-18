@@ -72,5 +72,14 @@ namespace Core.Net
             }
             return false;
         }
+
+        /// <summary>
+        /// 关闭socket
+        /// </summary>
+        protected void Stop()
+        {
+            this.RunStatus = false;
+            ServerSocket.Close();
+        }
     }
 }

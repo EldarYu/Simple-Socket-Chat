@@ -44,16 +44,25 @@ namespace Core.Net
                 this.RunStatus = true;
                 return true;
             }
-            catch(SocketException e)
+            catch (SocketException e)
             {
                 new Exceptions.SocketException(e);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 new Exceptions.UnknowException(e);
             }
             this.RunStatus = false;
             return false;
+        }
+
+        /// <summary>
+        /// 关闭socket
+        /// </summary>
+        protected void Stop()
+        {
+            this.RunStatus = false;
+            ClientSocket.Close();
         }
 
     }
