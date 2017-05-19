@@ -35,6 +35,24 @@ namespace Core.Function.Auth
         }
 
         /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public bool Login(string name,string password)
+        {
+            foreach (var item in UserList)
+            {
+                if (item.Name == name)
+                    if (item.Password == password)
+                        return true;
+                return false;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// 用户注册
         /// </summary>
         /// <param name="name"></param>
@@ -48,7 +66,7 @@ namespace Core.Function.Auth
                     return false;
             }
 
-            UserList.Add(new User(name, password, false, null));
+            UserList.Add(new User(name, password, null));
             return true;
         }
 
@@ -70,7 +88,7 @@ namespace Core.Function.Auth
         /// <returns></returns>
         public bool Save(string path)
         {
-            if (fileHelper.Save<User>(UserList, path))
+            if (fileHelper.Save(UserList, path))
                 return true;
             return false;
         }

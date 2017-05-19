@@ -70,6 +70,7 @@ namespace Core.Net
             {
                 new Exceptions.UnknowException(e);
             }
+            this.RunStatus = false;
             return false;
         }
 

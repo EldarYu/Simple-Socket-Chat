@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Method\Client.cs" />
-    <Compile Include="Method\ControlWriter.cs" />
+    <Compile Include="Method\TextBoxWriter.cs" />
     <Compile Include="Views\Chat.cs">
       <SubType>Form</SubType>
     </Compile>

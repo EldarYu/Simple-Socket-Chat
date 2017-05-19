@@ -88,7 +88,7 @@ namespace Core.Function.Chatroom
         /// <returns></returns>
         public bool Save(string path)
         {
-            if (fileHelper.Save<Chatroom>(ChatroomList, path))
+            if (fileHelper.Save(ChatroomList, path))
                 return true;
             return false;
         }

@@ -62,7 +62,7 @@ namespace Core.Net
         protected void Stop()
         {
             this.RunStatus = false;
-            ClientSocket.Close();
+            this.ClientSocket.Close();
         }
 
     }

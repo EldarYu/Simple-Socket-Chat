@@ -1,47 +1,66 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.Threading;
 using System.Net.Sockets;
-using System.Windows.Forms;
+using Core.Protocol;
 
 namespace Client.Method
 {
+    /// <summary>
+    /// 客户端
+    /// </summary>
     public class Client : Core.Net.Client
     {
         public Client(IPEndPoint ipEndPoint) : base(ipEndPoint) { }
-        public ControlWriter Write = ControlWriter.GetInstance();
 
-        public bool Run()
+        /// <summary>
+        /// 启动服务器
+        /// </summary>
+        /// <returns></returns>
+        public bool Run(bool isChatClient)
         {
             if (!this.Connect())
                 return false;
-            this.Processer = new Thread(ProcessData);
-            this.Processer.Start();
+            if (isChatClient)
+                Listene();
             return true;
         }
 
+        /// <summary>
+        /// 启动数据处理进程
+        /// </summary>
+        public void Listene()
+        {
+            this.Processer = new Thread(ProcessData);
+            this.Processer.Start();
+        }
+
+        /// <summary>
+        /// 停止服务器,终止数据处理进程
+        /// </summary>
         public void StopRun()
         {
             this.Stop();
+            this.Processer.Abort();
         }
 
-        public void Send<T>(Core.Protocol.Message<T> msg)
+        public void Send(string msg)
         {
-            this.SerializeData<T>(this.ClientSocket, msg);
+            Message<string> _msg = new Message<string>(DataType.Head.MSG, msg);
+            ParseData(_msg);
         }
 
+        /// <summary>
+        /// 处理数据
+        /// </summary>
         private void ProcessData()
         {
             while (this.RunStatus)
             {
                 try
                 {
-                    Core.Protocol.Message<string> msg = this.DeserializeData<string>(this.ClientSocket);
-                    Write.SetMsg(msg.Content);
+                    Message<string> msg = this.DeserializeData<string>(this.ClientSocket);
+                    Console.WriteLine(msg.Content);
                 }
                 catch (SocketException e)
                 {
@@ -53,8 +72,47 @@ namespace Client.Method
                     new Core.Exceptions.UnknowException(e);
                     this.ClientSocket.Close();
                 }
+            }
+        }
+
+        /// <summary>
+        /// 解析数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="msg"></param>
+        private void ParseData<T>(Message<T> msg)
+        {
+            switch (msg.Header)
+            {
+                case DataType.Head.MSG:
+                    Send(msg as Message<string>);
+                    break;
+
+                case DataType.Head.GCRL:
+                    break;
+                case DataType.Head.GUL:
+                    break;
+                case DataType.Head.JICM:
+                    break;
+                case DataType.Head.QUIT:
+                    break;
+                case DataType.Head.LOGN:
+
+                    break;
+                case DataType.Head.REGI:
+                    break;
 
             }
+        }
+
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="msg"></param>
+        private void Send<T>(Message<T> msg)
+        {
+            this.SerializeData<T>(this.ClientSocket, msg);
         }
     }
 }

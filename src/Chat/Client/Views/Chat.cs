@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Client.Method;
-using Core.Protocol;
-using System.Net;
 
 namespace Client.Views
 {
     public partial class Chat : Form
     {
         public Method.Client Client;
-        public ControlWriter writer;
+        public Method.Client GetUserList;
+        public Method.Client GetChtromList;
+
         public Chat(Method.Client client)
         {
             InitializeComponent();
@@ -25,8 +18,7 @@ namespace Client.Views
 
         private void Chat_Load(object sender, EventArgs e)
         {
-            writer = ControlWriter.GetInstance();
-            writer.writer += new ControlWriter.Write(Update);
+            TextBoxWriter tw = new TextBoxWriter(tb_message);
         }
 
         private void btn_createChatroom_Click(object sender, EventArgs e)
@@ -38,17 +30,9 @@ namespace Client.Views
         {
             if (tb_sendMsg.Text != "")
             {
-                Message<string> msg = new Message<string>(DataType.Head.MSG, tb_sendMsg.Text.ToString());
-                Client.Send<string>(msg);
+                Client.Send(tb_sendMsg.Text);
                 tb_sendMsg.Text = "";
             }
-        }
-
-        private void Update(object control, string msg)
-        {
-            if (control is TextBox)
-                tb_message.AppendText("- " + msg + " -\r\n");
-
         }
 
     }

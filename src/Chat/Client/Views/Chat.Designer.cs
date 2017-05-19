@@ -32,7 +32,6 @@
             this.listBox_userList = new System.Windows.Forms.ListBox();
             this.groupBox_chatRoom = new System.Windows.Forms.GroupBox();
             this.btn_createChatroom = new System.Windows.Forms.Button();
-            this.tb_createChatroom = new System.Windows.Forms.TextBox();
             this.cb_chatroomList = new System.Windows.Forms.ComboBox();
             this.groupBox_message = new System.Windows.Forms.GroupBox();
             this.tb_message = new System.Windows.Forms.TextBox();
@@ -72,7 +71,6 @@
             // groupBox_chatRoom
             // 
             this.groupBox_chatRoom.Controls.Add(this.btn_createChatroom);
-            this.groupBox_chatRoom.Controls.Add(this.tb_createChatroom);
             this.groupBox_chatRoom.Controls.Add(this.cb_chatroomList);
             this.groupBox_chatRoom.Location = new System.Drawing.Point(270, 12);
             this.groupBox_chatRoom.Name = "groupBox_chatRoom";
@@ -83,27 +81,20 @@
             // 
             // btn_createChatroom
             // 
-            this.btn_createChatroom.Location = new System.Drawing.Point(519, 26);
+            this.btn_createChatroom.Location = new System.Drawing.Point(452, 24);
             this.btn_createChatroom.Name = "btn_createChatroom";
-            this.btn_createChatroom.Size = new System.Drawing.Size(75, 35);
+            this.btn_createChatroom.Size = new System.Drawing.Size(146, 35);
             this.btn_createChatroom.TabIndex = 2;
             this.btn_createChatroom.Text = "Create";
             this.btn_createChatroom.UseVisualStyleBackColor = true;
             this.btn_createChatroom.Click += new System.EventHandler(this.btn_createChatroom_Click);
             // 
-            // tb_createChatroom
-            // 
-            this.tb_createChatroom.Location = new System.Drawing.Point(370, 32);
-            this.tb_createChatroom.Name = "tb_createChatroom";
-            this.tb_createChatroom.Size = new System.Drawing.Size(124, 22);
-            this.tb_createChatroom.TabIndex = 1;
-            // 
             // cb_chatroomList
             // 
             this.cb_chatroomList.FormattingEnabled = true;
-            this.cb_chatroomList.Location = new System.Drawing.Point(30, 30);
+            this.cb_chatroomList.Location = new System.Drawing.Point(59, 30);
             this.cb_chatroomList.Name = "cb_chatroomList";
-            this.cb_chatroomList.Size = new System.Drawing.Size(311, 24);
+            this.cb_chatroomList.Size = new System.Drawing.Size(348, 24);
             this.cb_chatroomList.TabIndex = 0;
             // 
             // groupBox_message
@@ -161,7 +152,6 @@
             this.Load += new System.EventHandler(this.Chat_Load);
             this.groupBox_userList.ResumeLayout(false);
             this.groupBox_chatRoom.ResumeLayout(false);
-            this.groupBox_chatRoom.PerformLayout();
             this.groupBox_message.ResumeLayout(false);
             this.groupBox_message.PerformLayout();
             this.ResumeLayout(false);
@@ -173,7 +163,6 @@
         private System.Windows.Forms.GroupBox groupBox_userList;
         private System.Windows.Forms.ListBox listBox_userList;
         private System.Windows.Forms.GroupBox groupBox_chatRoom;
-        private System.Windows.Forms.TextBox tb_createChatroom;
         private System.Windows.Forms.ComboBox cb_chatroomList;
         private System.Windows.Forms.Button btn_createChatroom;
         private System.Windows.Forms.GroupBox groupBox_message;

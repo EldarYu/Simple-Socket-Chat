@@ -16,6 +16,8 @@ namespace Client
     public partial class Connect : Form
     {
         public Method.Client Client;
+        public Method.Client Auth;
+
         public Connect()
         {
             InitializeComponent();
@@ -40,7 +42,7 @@ namespace Client
               + nud_ip4.Value.ToString());
             int port = Convert.ToInt32(nud_port.Value);
             Client = new Method.Client(new IPEndPoint(ipAddress, port));
-            if(Client.Run())
+            if(Client.Run(true))
             {
                 nud_ip1.ReadOnly = true;
                 nud_ip2.ReadOnly = true;
@@ -58,5 +60,12 @@ namespace Client
                 btn_register.Enabled = true;
             }
         }
+
+        private void btn_register_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 }

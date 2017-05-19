@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using Server.Method;
@@ -16,7 +8,7 @@ namespace Server
     public partial class Main : Form
     {
         public Method.Server server;
-        public ControlWriter writer;
+
         public Main()
         {
             InitializeComponent();
@@ -24,8 +16,7 @@ namespace Server
 
         private void Main_Load(object sender, EventArgs e)
         {
-            writer = ControlWriter.GetInstance();
-            writer.writer += new ControlWriter.Write(UpdateStatus);
+            TextBoxWriter tw = new TextBoxWriter(tb_statuShow);
         }
 
         private void btn_start_Click(object sender, EventArgs e)
@@ -37,7 +28,7 @@ namespace Server
             server = new Method.Server(new IPEndPoint(ipAddress, port));
             if (server.Run(100))
             {
-                UpdateStatus("Server is running");
+                Console.WriteLine("Server is running!");
                 btn_stop.Enabled = true;
                 btn_start.Enabled = false;
                 nud_ip1.ReadOnly = true;
@@ -53,9 +44,29 @@ namespace Server
             }
         }
 
-        private void UpdateStatus(string msg)
+        private void btn_stop_Click(object sender, EventArgs e)
         {
-            tb_statuShow.AppendText("- " + msg + " -\r\n");
+            server.StopRun();
+            Console.WriteLine("Stopping the server");
+            btn_stop.Enabled = false;
+            btn_start.Enabled = true;
+            nud_ip1.ReadOnly = false;
+            nud_ip2.ReadOnly = false;
+            nud_ip3.ReadOnly = false;
+            nud_ip4.ReadOnly = false;
+            nud_port.ReadOnly = false;
+            nud_ip1.Increment = 1;
+            nud_ip2.Increment = 1;
+            nud_ip3.Increment = 1;
+            nud_ip4.Increment = 1;
+            nud_port.Increment = 1;
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (server != null)
+                if (!server.Save())
+                    MessageBox.Show("Data save fail!");
         }
     }
 }

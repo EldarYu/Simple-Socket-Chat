@@ -82,5 +82,14 @@ namespace Server.Properties {
                 this["port"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("data/")]
+        public string dataPath {
+            get {
+                return ((string)(this["dataPath"]));
+            }
+        }
     }
 }

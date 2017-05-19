@@ -49,6 +49,7 @@
     <Compile Include="Exceptions\IOException.cs" />
     <Compile Include="Exceptions\SocketException.cs" />
     <Compile Include="Exceptions\UnknowException.cs" />
+    <Compile Include="Function\ConsoleHelper.cs" />
     <Compile Include="Function\FileHelper.cs" />
     <Compile Include="Net\Client.cs" />
     <Compile Include="Net\Comm.cs" />
