@@ -70,6 +70,8 @@ namespace Server.Method
         {
             this.Stop();
             this.Listener.Abort();
+            if (this.Processer != null)
+                this.Processer.Abort();
         }
 
         /// <summary>
@@ -173,7 +175,7 @@ namespace Server.Method
                     break;
                 case DataType.Head.QUIT:
                     OnlineUserList.Remove(socket);
-                    Console.WriteLine("## USER -- "+GetUsr(socket.RemoteEndPoint)+" offline !");
+                    Console.WriteLine("## USER -- " + GetUsr(socket.RemoteEndPoint) + " offline !");
                     break;
 
                 //账户登录

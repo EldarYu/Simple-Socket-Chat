@@ -6,7 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using Client.Method;
 using System.Net;
@@ -17,7 +17,6 @@ namespace Client
     public partial class Connect : Form
     {
         public Method.Client Client;
-
         public Connect()
         {
             InitializeComponent();
@@ -73,7 +72,6 @@ namespace Client
             Message<List<string>> msg = new Message<List<string>>
                    (head, new List<string>() { tb_name.Text, tb_password.Text });
             Client.Send<List<string>>(msg);
-            int TimeCount = 0;
             while (true)
             {
                 Message<List<string>> temp = Client.GetSession(head);
@@ -88,12 +86,6 @@ namespace Client
                         return false;
                     }
                 }
-                if(TimeCount>10000000)
-                {
-                    MessageBox.Show("Server Connection interrupted");
-                    Application.ExitThread();
-                }
-                TimeCount++;
                 continue;
             }
         }
@@ -109,9 +101,12 @@ namespace Client
             {
                 Lock(true);
             }
+            else
+            {
+                Client = null;
+                MessageBox.Show("Server not online !");
+            }
         }
-
-
 
         private void Lock(bool value)
         {
@@ -129,6 +124,11 @@ namespace Client
             tb_password.ReadOnly = !value;
             btn_login.Enabled = value;
             btn_register.Enabled = value;
+        }
+
+        private void Connect_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

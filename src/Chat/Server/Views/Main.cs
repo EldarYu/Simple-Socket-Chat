@@ -45,6 +45,7 @@ namespace Server
             if (server != null)
                 if (!server.Save())
                     MessageBox.Show("Data save fail!");
+            Environment.Exit(0);
         }
 
         private void Lock(bool value)

@@ -46,6 +46,8 @@ namespace Core.Net
         {
             this.IpEndPoint = ipEndPoint;
             ServerSocket = null;
+            this.Listener = null;
+            this.Processer = null;
         }
 
         /// <summary>

@@ -241,6 +241,7 @@
             this.Name = "Connect";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Connect";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Connect_FormClosing);
             this.Load += new System.EventHandler(this.Connect_Load);
             this.groupBox_serverSet.ResumeLayout(false);
             this.groupBox_serverSet.PerformLayout();

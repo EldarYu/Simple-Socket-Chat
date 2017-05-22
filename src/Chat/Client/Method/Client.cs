@@ -4,6 +4,8 @@ using System.Threading;
 using System.Net.Sockets;
 using Core.Protocol;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace Client.Method
 {
@@ -43,20 +45,22 @@ namespace Client.Method
 
         public Message<List<string>> GetSession(DataType.Head head)
         {
-            if (Session.Count > 0)
+            Message<List<string>> temp = null;
+            lock (Session)
             {
-                foreach (var item in Session)
+                if (Session.Count > 0)
                 {
-                    if(item.Header==head)
+                    foreach (var item in Session)
                     {
-                        Message<List<string>> temp = item;
-                        Session.Clear();
-                        return temp;
+                        if (item.Header == head)
+                        {
+                            temp = item;
+                        }
                     }
                 }
-                return null;
             }
-            return null;
+            Session.Remove(temp);
+            return temp;
         }
 
         /// <summary>
@@ -74,12 +78,18 @@ namespace Client.Method
                 catch (SocketException e)
                 {
                     new Core.Exceptions.SocketException(e);
+                    this.RunStatus = false;
                     this.ClientSocket.Close();
+                    MessageBox.Show("Lost connection,Program will exit");
+                    Environment.Exit(0);
                 }
                 catch (Exception e)
                 {
                     new Core.Exceptions.UnknowException(e);
+                    this.RunStatus = false;
                     this.ClientSocket.Close();
+                    MessageBox.Show("Lost connection,Program will exit");
+                    Environment.Exit(0);
                 }
             }
         }
@@ -87,33 +97,35 @@ namespace Client.Method
         /// <summary>
         /// 解析数据
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="msg"></param>
         private void ParseData(Message<List<string>> msg)
         {
-            switch (msg.Header)
+            lock (Session)
             {
-                case DataType.Head.MSG:
-                    Console.WriteLine(msg.Content[0].ToString());
-                    break;
+                switch (msg.Header)
+                {
+                    case DataType.Head.MSG:
+                        Console.WriteLine(msg.Content[0].ToString());
+                        break;
 
-                case DataType.Head.GCRL:
-                    Session.Add(msg);
-                    break;
-                case DataType.Head.GUL:
-                    Session.Add(msg);
-                    break;
+                    case DataType.Head.GCRL:
+                        Session.Add(msg);
+                        break;
+                    case DataType.Head.GUL:
+                        Session.Add(msg);
+                        break;
 
-                case DataType.Head.JICM:
-                    break;
+                    case DataType.Head.JICM:
+                        break;
 
-                case DataType.Head.LOGN:
-                    Session.Add(msg);
-                    break;
-                case DataType.Head.REGI:
-                    Session.Add(msg);
-                    break;
+                    case DataType.Head.LOGN:
+                        Session.Add(msg);
+                        break;
+                    case DataType.Head.REGI:
+                        Session.Add(msg);
+                        break;
 
+                }
             }
         }
 

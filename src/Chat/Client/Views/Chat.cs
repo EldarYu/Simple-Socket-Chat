@@ -41,6 +41,7 @@ namespace Client.Views
         {
             Message<List<string>> msg = new Message<List<string>>(DataType.Head.QUIT, null);
             Client.Send<List<string>>(msg);
+            Environment.Exit(0);
         }
     }
 }
