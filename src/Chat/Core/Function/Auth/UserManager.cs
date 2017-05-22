@@ -47,7 +47,7 @@ namespace Core.Function.Auth
                 if (item.Name == name)
                     if (item.Password == password)
                         return true;
-                return false;
+                continue;
             }
             return false;
         }

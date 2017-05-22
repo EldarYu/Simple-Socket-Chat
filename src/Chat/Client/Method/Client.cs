@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Net.Sockets;
 using Core.Protocol;
+using System.Collections.Generic;
 
 namespace Client.Method
 {
@@ -11,28 +12,24 @@ namespace Client.Method
     /// </summary>
     public class Client : Core.Net.Client
     {
-        public Client(IPEndPoint ipEndPoint) : base(ipEndPoint) { }
+        public List<Message<List<string>>> Session;
+
+        public Client(IPEndPoint ipEndPoint) : base(ipEndPoint)
+        {
+            Session = new List<Message<List<string>>>();
+        }
 
         /// <summary>
         /// 启动服务器
         /// </summary>
         /// <returns></returns>
-        public bool Run(bool isChatClient)
+        public bool Run()
         {
             if (!this.Connect())
                 return false;
-            if (isChatClient)
-                Listene();
-            return true;
-        }
-
-        /// <summary>
-        /// 启动数据处理进程
-        /// </summary>
-        public void Listene()
-        {
             this.Processer = new Thread(ProcessData);
             this.Processer.Start();
+            return true;
         }
 
         /// <summary>
@@ -44,10 +41,22 @@ namespace Client.Method
             this.Processer.Abort();
         }
 
-        public void Send(string msg)
+        public Message<List<string>> GetSession(DataType.Head head)
         {
-            Message<string> _msg = new Message<string>(DataType.Head.MSG, msg);
-            ParseData(_msg);
+            if (Session.Count > 0)
+            {
+                foreach (var item in Session)
+                {
+                    if(item.Header==head)
+                    {
+                        Message<List<string>> temp = item;
+                        Session.Clear();
+                        return temp;
+                    }
+                }
+                return null;
+            }
+            return null;
         }
 
         /// <summary>
@@ -59,8 +68,8 @@ namespace Client.Method
             {
                 try
                 {
-                    Message<string> msg = this.DeserializeData<string>(this.ClientSocket);
-                    Console.WriteLine(msg.Content);
+                    Message<List<string>> msg = this.DeserializeData<List<string>>(this.ClientSocket);
+                    ParseData(msg);
                 }
                 catch (SocketException e)
                 {
@@ -80,29 +89,42 @@ namespace Client.Method
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="msg"></param>
-        private void ParseData<T>(Message<T> msg)
+        private void ParseData(Message<List<string>> msg)
         {
             switch (msg.Header)
             {
                 case DataType.Head.MSG:
-                    Send(msg as Message<string>);
+                    Console.WriteLine(msg.Content[0].ToString());
                     break;
 
                 case DataType.Head.GCRL:
+                    Session.Add(msg);
                     break;
                 case DataType.Head.GUL:
+                    Session.Add(msg);
                     break;
+
                 case DataType.Head.JICM:
                     break;
-                case DataType.Head.QUIT:
-                    break;
-                case DataType.Head.LOGN:
 
+                case DataType.Head.LOGN:
+                    Session.Add(msg);
                     break;
                 case DataType.Head.REGI:
+                    Session.Add(msg);
                     break;
 
             }
+        }
+
+        /// <summary>
+        /// 发送文字消息
+        /// </summary>
+        /// <param name="msg"></param>
+        public void SendMsg(string msg)
+        {
+            Message<List<string>> temp = new Message<List<string>>(DataType.Head.MSG, new List<string>() { msg });
+            Send<List<string>>(temp);
         }
 
         /// <summary>
@@ -110,7 +132,7 @@ namespace Client.Method
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="msg"></param>
-        private void Send<T>(Message<T> msg)
+        public void Send<T>(Message<T> msg)
         {
             this.SerializeData<T>(this.ClientSocket, msg);
         }

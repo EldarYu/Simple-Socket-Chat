@@ -149,6 +149,7 @@
             this.Name = "Chat";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Chat";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Chat_FormClosing);
             this.Load += new System.EventHandler(this.Chat_Load);
             this.groupBox_userList.ResumeLayout(false);
             this.groupBox_chatRoom.ResumeLayout(false);

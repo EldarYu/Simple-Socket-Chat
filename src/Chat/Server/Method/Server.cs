@@ -20,7 +20,7 @@ namespace Server.Method
         private UserManager UsrMana;
         private ChatroomManager ChatMana;
 
-        public List<Socket> OnlineUserList;
+        public Dictionary<Socket, string> OnlineUserList;
 
         /// <summary>
         /// 初始化,读取用户数据
@@ -28,6 +28,7 @@ namespace Server.Method
         /// <param name="ipEndPoint"></param>
         public Server(IPEndPoint ipEndPoint) : base(ipEndPoint)
         {
+            OnlineUserList = new Dictionary<Socket, string>();
             if (!Directory.Exists(Settings.Default.dataPath))
                 Directory.CreateDirectory(Settings.Default.dataPath);
             UsrMana = new UserManager(Settings.Default.dataPath + "usrm.pkg");
@@ -54,7 +55,6 @@ namespace Server.Method
         /// <returns></returns>
         public bool Run(int maxBacklog)
         {
-            OnlineUserList = new List<Socket>();
             this.MaxBackLog = maxBacklog;
             if (!this.Start())
                 return false;
@@ -83,9 +83,7 @@ namespace Server.Method
                 {
                     Socket clientSocket;
                     clientSocket = this.ServerSocket.Accept();
-
-                    OnlineUserList.Add(clientSocket);
-                    Console.WriteLine(clientSocket.RemoteEndPoint + " is connected");
+                    Console.WriteLine("## CONNECT -- " + clientSocket.RemoteEndPoint + " is connected");
                     this.Processer = new Thread(() => ProcessData(clientSocket));
                     this.Processer.Start();
                 }
@@ -110,9 +108,8 @@ namespace Server.Method
             {
                 try
                 {
-                    Message<string> msg = this.DeserializeData<string>(socket);
+                    Message<List<string>> msg = this.DeserializeData<List<string>>(socket);
                     ParseData(socket, msg);
-                    Console.WriteLine("Receiving a message from" + socket.RemoteEndPoint);
                 }
                 catch (SocketException e)
                 {
@@ -133,12 +130,23 @@ namespace Server.Method
         /// <param name="msg"></param>
         private void MassTextMsg(string msg)
         {
-            Message<string> temp =
-                new Message<string>(DataType.Head.MSG, msg);
+            Message<List<string>> temp =
+                new Message<List<string>>(DataType.Head.MSG, new List<string>() { msg });
             foreach (var item in OnlineUserList)
             {
-                this.SerializeData<string>(item, temp);
+                this.SerializeData<List<string>>(item.Key, temp);
             }
+        }
+
+
+        private string GetUsr(EndPoint EndPoint)
+        {
+            foreach (var item in OnlineUserList)
+            {
+                if (item.Key.RemoteEndPoint == EndPoint)
+                    return item.Value;
+            }
+            return null;
         }
 
         /// <summary>
@@ -146,13 +154,16 @@ namespace Server.Method
         /// </summary>
         /// <param name="socket"></param>
         /// <param name="msg"></param>
-        private void ParseData(Socket socket, Message<string> msg)
+        private void ParseData(Socket socket, Message<List<string>> msg)
         {
+            Console.WriteLine("## DATA -- Receiving a data from" + socket.RemoteEndPoint);
             switch (msg.Header)
             {
+                //聊天消息
                 case DataType.Head.MSG:
-                    MassTextMsg(socket.RemoteEndPoint.ToString()+ " Say : "+ msg.Content);
+                    MassTextMsg(GetUsr(socket.RemoteEndPoint) + " Say : " + msg.Content[0].ToString());
                     break;
+
 
                 case DataType.Head.GCRL:
                     break;
@@ -161,22 +172,32 @@ namespace Server.Method
                 case DataType.Head.JICM:
                     break;
                 case DataType.Head.QUIT:
+                    OnlineUserList.Remove(socket);
+                    Console.WriteLine("## USER -- "+GetUsr(socket.RemoteEndPoint)+" offline !");
                     break;
 
+                //账户登录
                 case DataType.Head.LOGN:
-                    string[] lognUsr = Regex.Split(msg.Content, "\r\n");
-                    if (UsrMana.Login(lognUsr[0], lognUsr[1]))
-                        Send<bool>(socket, new Message<bool>(DataType.Head.VERF, true));
+                    if (UsrMana.Login(msg.Content[0], msg.Content[1]))
+                    {
+                        Send<List<string>>(socket, new Message<List<string>>
+                            (DataType.Head.LOGN, new List<string>() { "success" }));
+                        OnlineUserList.Add(socket, msg.Content[0]);
+                        Console.WriteLine("## USER -- " + msg.Content[0] + " online !");
+                    }
                     else
-                        Send<bool>(socket, new Message<bool>(DataType.Head.VERF, false));
+                        Send<List<string>>(socket, new Message<List<string>>
+                            (DataType.Head.LOGN, new List<string>() { "fail" }));
                     break;
 
+                //账户注册
                 case DataType.Head.REGI:
-                    string[] regiUsr = Regex.Split(msg.Content, "\r\n");
-                    if (UsrMana.Register(regiUsr[0], regiUsr[1]))
-                        Send<bool>(socket, new Message<bool>(DataType.Head.VERF, true));
+                    if (UsrMana.Register(msg.Content[0], msg.Content[1]))
+                        Send<List<string>>(socket, new Message<List<string>>
+                            (DataType.Head.REGI, new List<string>() { "success" }));
                     else
-                        Send<bool>(socket, new Message<bool>(DataType.Head.VERF, false));
+                        Send<List<string>>(socket, new Message<List<string>>
+                            (DataType.Head.REGI, new List<string>() { "fail" }));
                     break;
             }
         }

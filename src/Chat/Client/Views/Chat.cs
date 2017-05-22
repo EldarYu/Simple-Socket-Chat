@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using Client.Method;
+using Core.Protocol;
+using System.Collections.Generic;
 
 namespace Client.Views
 {
@@ -30,10 +32,15 @@ namespace Client.Views
         {
             if (tb_sendMsg.Text != "")
             {
-                Client.Send(tb_sendMsg.Text);
+                Client.SendMsg(tb_sendMsg.Text);
                 tb_sendMsg.Text = "";
             }
         }
 
+        private void Chat_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Message<List<string>> msg = new Message<List<string>>(DataType.Head.QUIT, null);
+            Client.Send<List<string>>(msg);
+        }
     }
 }

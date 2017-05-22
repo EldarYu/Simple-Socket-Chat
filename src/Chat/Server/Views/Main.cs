@@ -28,38 +28,16 @@ namespace Server
             server = new Method.Server(new IPEndPoint(ipAddress, port));
             if (server.Run(100))
             {
-                Console.WriteLine("Server is running!");
-                btn_stop.Enabled = true;
-                btn_start.Enabled = false;
-                nud_ip1.ReadOnly = true;
-                nud_ip2.ReadOnly = true;
-                nud_ip3.ReadOnly = true;
-                nud_ip4.ReadOnly = true;
-                nud_port.ReadOnly = true;
-                nud_ip1.Increment = 0;
-                nud_ip2.Increment = 0;
-                nud_ip3.Increment = 0;
-                nud_ip4.Increment = 0;
-                nud_port.Increment = 0;
+                Console.WriteLine("## STATUS -- Server is running!");
+                Lock(true);
             }
         }
 
         private void btn_stop_Click(object sender, EventArgs e)
         {
             server.StopRun();
-            Console.WriteLine("Stopping the server");
-            btn_stop.Enabled = false;
-            btn_start.Enabled = true;
-            nud_ip1.ReadOnly = false;
-            nud_ip2.ReadOnly = false;
-            nud_ip3.ReadOnly = false;
-            nud_ip4.ReadOnly = false;
-            nud_port.ReadOnly = false;
-            nud_ip1.Increment = 1;
-            nud_ip2.Increment = 1;
-            nud_ip3.Increment = 1;
-            nud_ip4.Increment = 1;
-            nud_port.Increment = 1;
+            Console.WriteLine("## SATUS -- Stopping the server");
+            Lock(false);
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -67,6 +45,22 @@ namespace Server
             if (server != null)
                 if (!server.Save())
                     MessageBox.Show("Data save fail!");
+        }
+
+        private void Lock(bool value)
+        {
+            btn_stop.Enabled = value;
+            btn_start.Enabled = !value;
+            nud_ip1.ReadOnly = value;
+            nud_ip2.ReadOnly = value;
+            nud_ip3.ReadOnly = value;
+            nud_ip4.ReadOnly = value;
+            nud_port.ReadOnly = value;
+            nud_ip1.Increment = value ? 0 : 1;
+            nud_ip2.Increment = value ? 0 : 1;
+            nud_ip3.Increment = value ? 0 : 1;
+            nud_ip4.Increment = value ? 0 : 1;
+            nud_port.Increment = value ? 0 : 1;
         }
     }
 }
