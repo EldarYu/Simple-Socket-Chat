@@ -56,10 +56,12 @@ namespace Core.Net
             catch (SerializationException e)
             {
                 new Exceptions.SerializationException(e);
+                socket.Close();
             }
             catch (Exception e)
             {
                 new Exceptions.UnknowException(e);
+                socket.Close();
             }
         }
 
@@ -80,6 +82,7 @@ namespace Core.Net
             {
                 new Exceptions.UnknowException(e);
             }
+            socket.Close();
             return null;
         }
     }

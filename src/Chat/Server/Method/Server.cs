@@ -8,7 +8,6 @@ using Core.Function.Auth;
 using Core.Function.Chatroom;
 using Server.Properties;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace Server.Method
 {
@@ -140,7 +139,11 @@ namespace Server.Method
             }
         }
 
-
+        /// <summary>
+        /// 根据socket获取用户名
+        /// </summary>
+        /// <param name="EndPoint"></param>
+        /// <returns></returns>
         private string GetUsr(EndPoint EndPoint)
         {
             foreach (var item in OnlineUserList)
@@ -152,54 +155,101 @@ namespace Server.Method
         }
 
         /// <summary>
+        /// 获取在线用户列表
+        /// </summary>
+        /// <returns></returns>
+        private List<string> GetUserList()
+        {
+            lock (OnlineUserList)
+            {
+                List<string> usrList = new List<string>();
+                foreach (var item in OnlineUserList)
+                {
+                    usrList.Add(item.Value);
+                }
+                return usrList;
+            }
+        }
+
+
+        /// <summary>
         /// 解析数据
         /// </summary>
         /// <param name="socket"></param>
         /// <param name="msg"></param>
         private void ParseData(Socket socket, Message<List<string>> msg)
         {
-            Console.WriteLine("## DATA -- Receiving a data from" + socket.RemoteEndPoint);
             switch (msg.Header)
             {
                 //聊天消息
                 case DataType.Head.MSG:
+                    Console.WriteLine("## LOG -- " + socket.RemoteEndPoint + " send a message");
                     MassTextMsg(GetUsr(socket.RemoteEndPoint) + " Say : " + msg.Content[0].ToString());
                     break;
 
-
+                //客户端请求聊天室列表
                 case DataType.Head.GCRL:
+                    Console.WriteLine("## LOG -- " + socket.RemoteEndPoint + " request chatroom list");
                     break;
+
+                //客户端请求在线用户列表
                 case DataType.Head.GUL:
+                    Console.WriteLine("## LOG -- " + socket.RemoteEndPoint + " request online user list");
+                    Send<List<string>>(socket, new Message<List<string>>(DataType.Head.GUL, GetUserList()));
                     break;
+
+
+                case DataType.Head.CECR:
+                    Console.WriteLine("## LOG -- " + socket.RemoteEndPoint + " trying to create chatroom");
+                    if (ChatMana.AddChatroom(msg.Content[0]))
+                        Send<List<string>>(socket, new Message<List<string>>
+                                (DataType.Head.CECR, new List<string>() { "success" }));
+                    else
+                        Send<List<string>>(socket, new Message<List<string>>
+                                (DataType.Head.CECR, new List<string>() { "Chatroom already exist" }));
+                    break;
+
                 case DataType.Head.JICM:
+                    Console.WriteLine("## LOG -- " + socket.RemoteEndPoint + " trying to join chatroom");
                     break;
+
+                //客户端下线
                 case DataType.Head.QUIT:
+                    //socket.Close();
+                    Console.WriteLine("## USER -- " + GetUsr(socket.RemoteEndPoint) + " offline");
                     OnlineUserList.Remove(socket);
-                    Console.WriteLine("## USER -- " + GetUsr(socket.RemoteEndPoint) + " offline !");
                     break;
 
                 //账户登录
                 case DataType.Head.LOGN:
-                    if (UsrMana.Login(msg.Content[0], msg.Content[1]))
+                    Console.WriteLine("## USER -- " + socket.RemoteEndPoint + " trying to login");
+                    if (!OnlineUserList.ContainsValue(msg.Content[0]))
                     {
-                        Send<List<string>>(socket, new Message<List<string>>
-                            (DataType.Head.LOGN, new List<string>() { "success" }));
-                        OnlineUserList.Add(socket, msg.Content[0]);
-                        Console.WriteLine("## USER -- " + msg.Content[0] + " online !");
+                        if (UsrMana.Login(msg.Content[0], msg.Content[1]))
+                        {
+                            Send<List<string>>(socket, new Message<List<string>>
+                                (DataType.Head.LOGN, new List<string>() { "success" }));
+                            OnlineUserList.Add(socket, msg.Content[0]);
+                            Console.WriteLine("## USER -- " + msg.Content[0] + " online");
+                        }
+                        else
+                            Send<List<string>>(socket, new Message<List<string>>
+                                (DataType.Head.LOGN, new List<string>() { "Account not exist,or check name or password" }));
                     }
                     else
                         Send<List<string>>(socket, new Message<List<string>>
-                            (DataType.Head.LOGN, new List<string>() { "fail" }));
+                                    (DataType.Head.LOGN, new List<string>() { "Account already online" }));
                     break;
 
                 //账户注册
                 case DataType.Head.REGI:
+                    Console.WriteLine("## USER -- " + socket.RemoteEndPoint + " trying to register");
                     if (UsrMana.Register(msg.Content[0], msg.Content[1]))
                         Send<List<string>>(socket, new Message<List<string>>
                             (DataType.Head.REGI, new List<string>() { "success" }));
                     else
                         Send<List<string>>(socket, new Message<List<string>>
-                            (DataType.Head.REGI, new List<string>() { "fail" }));
+                            (DataType.Head.REGI, new List<string>() { "Account already exist" }));
                     break;
             }
         }

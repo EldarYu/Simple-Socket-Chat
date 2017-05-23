@@ -6,7 +6,7 @@
 Used to learn the network programming and multi-threaded programming chat room applet, is expected to complete the following functions
 
  * ~~Simple chat function~~
- * Authentication
+ * ~~Authentication~~
  * Chatroom
 
 # Environment

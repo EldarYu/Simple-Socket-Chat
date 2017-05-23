@@ -5,16 +5,48 @@
     /// </summary>
     public class DataType
     {
-        /// <summary>
-        /// 类型枚举
-        /// MSG-文字消息,GUL-get user list 获取在线用户列表,GCRL-get chatroom list 获取聊天室列表
-        /// REGI-register 用户注册,QUIT-用户下线,LOGN-login 用户登陆,JICM-join chatroom 加入聊天室
-        /// </summary>
         public enum Head
         {
+            /// <summary>
+            /// 文字消息            
+            /// </summary>
             MSG,
-            GUL, GCRL,
-            REGI, QUIT, LOGN, JICM
+
+            /// <summary>
+            /// 获取在线用户列表
+            /// </summary>
+            GUL,
+
+            /// <summary>
+            /// 获取聊天室列表
+            /// </summary>
+            GCRL,
+
+            /// <summary>
+            /// 用户登陆
+            /// </summary>
+            LOGN,
+
+            /// <summary>
+            /// 用户注册
+            /// </summary>
+            REGI,
+
+            /// <summary>
+            /// 加入聊天室
+            /// </summary>
+            JICM, 
+           
+            /// <summary>
+            /// 创建聊天室
+            /// </summary>
+            CECR,
+
+            /// <summary>
+            /// 用户下线
+            /// </summary>
+            QUIT,
+           
         };
     }
 }

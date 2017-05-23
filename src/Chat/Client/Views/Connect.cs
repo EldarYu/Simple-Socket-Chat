@@ -1,16 +1,10 @@
 ﻿using Client.Views;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Windows.Forms;
-using Client.Method;
 using System.Net;
 using Core.Protocol;
+using System.Threading;
 
 namespace Client
 {
@@ -31,16 +25,9 @@ namespace Client
         {
             if (tb_name.Text != "" && tb_password.Text != "")
             {
-                if (Auth(DataType.Head.LOGN))
-                {
-                    Chat fm = new Chat(Client);
-                    fm.Show();
-                    this.Hide();
-                }
-                else
-                {
-                    MessageBox.Show("Account not exist,or check name or password");
-                }
+                Message<List<string>> msg = new Message<List<string>>
+                  (DataType.Head.LOGN, new List<string>() { tb_name.Text, tb_password.Text });
+                Client.Send<List<string>>(msg);
             }
             else
             {
@@ -52,14 +39,9 @@ namespace Client
         {
             if (tb_name.Text != "" && tb_password.Text != "")
             {
-                if (Auth(DataType.Head.REGI))
-                {
-                    MessageBox.Show("Registration successful,press 'Login' to login");
-                }
-                else
-                {
-                    MessageBox.Show("Registration failure,check name or password");
-                }
+                Message<List<string>> msg = new Message<List<string>>
+                   (DataType.Head.REGI, new List<string>() { tb_name.Text, tb_password.Text });
+                Client.Send<List<string>>(msg);
             }
             else
             {
@@ -67,26 +49,35 @@ namespace Client
             }
         }
 
-        private bool Auth(DataType.Head head)
+        private void ProcessData()
         {
-            Message<List<string>> msg = new Message<List<string>>
-                   (head, new List<string>() { tb_name.Text, tb_password.Text });
-            Client.Send<List<string>>(msg);
             while (true)
             {
-                Message<List<string>> temp = Client.GetSession(head);
-                if (temp != null)
+                Message<List<string>> loginReply = Client.GetSession(DataType.Head.LOGN);
+                Message<List<string>> regisReply = Client.GetSession(DataType.Head.REGI);
+                if (loginReply != null)
                 {
-                    if (temp.Content[0] == "success")
+                    if (loginReply.Content[0] == "success")
                     {
-                        return true;
+                        this.Invoke(new MethodInvoker(delegate ()
+                        {
+                            Chat fm = new Chat(Client);
+                            fm.Show();
+                            this.Hide();
+                        }));
                     }
                     else
-                    {
-                        return false;
-                    }
+                        MessageBox.Show(loginReply.Content[0]);
                 }
-                continue;
+                if (regisReply != null)
+                {
+                    if (regisReply.Content[0] == "success")
+                        MessageBox.Show("Registration successful,press 'Login' to login");
+                    else
+                        MessageBox.Show(regisReply.Content[0]);
+                }
+
+                Thread.Sleep(500);
             }
         }
 
@@ -99,6 +90,8 @@ namespace Client
             Client = new Method.Client(new IPEndPoint(ipAddress, port));
             if (Client.Run())
             {
+                Thread Process = new Thread(ProcessData);
+                Process.Start();
                 Lock(true);
             }
             else

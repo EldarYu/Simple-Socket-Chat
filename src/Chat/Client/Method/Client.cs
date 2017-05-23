@@ -104,39 +104,37 @@ namespace Client.Method
             {
                 switch (msg.Header)
                 {
+                    //来自服务器的文字消息
                     case DataType.Head.MSG:
                         Console.WriteLine(msg.Content[0].ToString());
                         break;
 
+                    //聊天室列表数据
                     case DataType.Head.GCRL:
                         Session.Add(msg);
                         break;
+
+                    //在线用户列表数据
                     case DataType.Head.GUL:
                         Session.Add(msg);
                         break;
 
-                    case DataType.Head.JICM:
-                        break;
-
+                    //登录验证结果
                     case DataType.Head.LOGN:
                         Session.Add(msg);
                         break;
+
+                    //注册结果
                     case DataType.Head.REGI:
                         Session.Add(msg);
                         break;
 
+                    //创建聊天室结果
+                    case DataType.Head.CECR:
+                        Session.Add(msg);
+                        break;
                 }
             }
-        }
-
-        /// <summary>
-        /// 发送文字消息
-        /// </summary>
-        /// <param name="msg"></param>
-        public void SendMsg(string msg)
-        {
-            Message<List<string>> temp = new Message<List<string>>(DataType.Head.MSG, new List<string>() { msg });
-            Send<List<string>>(temp);
         }
 
         /// <summary>
