@@ -7,10 +7,6 @@
  * ~~简单的聊天功能~~
  * ~~用户验证~~
 
-![](http://omwwxwojn.bkt.clouddn.com/chatprogram_demoimg1.gif)
-
-![](http://omwwxwojn.bkt.clouddn.com/chatprogram_demoimg2.gif)
-
 # 环境
 
 .NET Framework 4.5.2

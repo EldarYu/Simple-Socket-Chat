@@ -8,10 +8,6 @@ Used to learn the network programming and multi-threaded programming chat room a
  * ~~Simple chat function~~
  * ~~Authentication~~
 
-![](http://omwwxwojn.bkt.clouddn.com/chatprogram_demoimg1.gif)
-
-![](http://omwwxwojn.bkt.clouddn.com/chatprogram_demoimg2.gif)
-
 # Environment
 
 .NET Framework 4.5.2
