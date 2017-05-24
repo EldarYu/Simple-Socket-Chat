@@ -10,7 +10,6 @@ namespace Core.Function.Auth
     {
         private string name;
         private string password;
-        private Chatroom.Chatroom chatRoom;
 
         /// <summary>
         /// 用户名
@@ -42,20 +41,6 @@ namespace Core.Function.Auth
             }
         }
 
-        /// <summary>
-        /// 所属聊天室
-        /// </summary>
-        public Chatroom.Chatroom ChatRoom
-        {
-            set
-            {
-                chatRoom = value;
-            }
-            get
-            {
-                return chatRoom;
-            }
-        }
 
         /// <summary>
         /// 实例化
@@ -63,11 +48,10 @@ namespace Core.Function.Auth
         /// <param name="name"></param>
         /// <param name="password"></param>
         /// <param name="chatroom"></param>
-        public User(string name, string password, Chatroom.Chatroom chatroom)
+        public User(string name, string password)
         {
             this.Name = name;
             this.Password = password;
-            this.ChatRoom = chatroom;
         }
     }
 }

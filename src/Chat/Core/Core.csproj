@@ -44,8 +44,6 @@
     <Compile Include="Exceptions\SerializationException.cs" />
     <Compile Include="Function\Auth\User.cs" />
     <Compile Include="Function\Auth\UserManager.cs" />
-    <Compile Include="Function\Chatroom\Chatroom.cs" />
-    <Compile Include="Function\Chatroom\ChatroomManager.cs" />
     <Compile Include="Exceptions\IOException.cs" />
     <Compile Include="Exceptions\SocketException.cs" />
     <Compile Include="Exceptions\UnknowException.cs" />

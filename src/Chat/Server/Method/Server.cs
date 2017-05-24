@@ -5,7 +5,6 @@ using System.Threading;
 using System.Net.Sockets;
 using Core.Protocol;
 using Core.Function.Auth;
-using Core.Function.Chatroom;
 using Server.Properties;
 using System.IO;
 
@@ -17,7 +16,6 @@ namespace Server.Method
     public class Server : Core.Net.Server
     {
         private UserManager UsrMana;
-        private ChatroomManager ChatMana;
 
         public Dictionary<Socket, string> OnlineUserList;
 
@@ -30,8 +28,7 @@ namespace Server.Method
             OnlineUserList = new Dictionary<Socket, string>();
             if (!Directory.Exists(Settings.Default.dataPath))
                 Directory.CreateDirectory(Settings.Default.dataPath);
-            UsrMana = new UserManager(Settings.Default.dataPath + "usrm.pkg");
-            ChatMana = new ChatroomManager(Settings.Default.dataPath + "chtm.pkg");
+            UsrMana = new UserManager(Settings.Default.dataPath + "usrm");
         }
 
         /// <summary>
@@ -40,8 +37,7 @@ namespace Server.Method
         /// <returns></returns>
         public bool Save()
         {
-            if (UsrMana.Save(Settings.Default.dataPath + "usrm.pkg") &&
-                ChatMana.Save(Settings.Default.dataPath + "chtm.pkg"))
+            if (UsrMana.Save(Settings.Default.dataPath + "usrm"))
                 return true;
             return false;
         }
@@ -171,7 +167,6 @@ namespace Server.Method
             }
         }
 
-
         /// <summary>
         /// 解析数据
         /// </summary>
@@ -184,33 +179,14 @@ namespace Server.Method
                 //聊天消息
                 case DataType.Head.MSG:
                     Console.WriteLine("## LOG -- " + socket.RemoteEndPoint + " send a message");
-                    MassTextMsg(GetUsr(socket.RemoteEndPoint) + " Say : " + msg.Content[0].ToString());
-                    break;
-
-                //客户端请求聊天室列表
-                case DataType.Head.GCRL:
-                    Console.WriteLine("## LOG -- " + socket.RemoteEndPoint + " request chatroom list");
+                    var usrname = GetUsr(socket.RemoteEndPoint);
+                    MassTextMsg(usrname + " Say : " + msg.Content[0].ToString());
                     break;
 
                 //客户端请求在线用户列表
                 case DataType.Head.GUL:
                     Console.WriteLine("## LOG -- " + socket.RemoteEndPoint + " request online user list");
                     Send<List<string>>(socket, new Message<List<string>>(DataType.Head.GUL, GetUserList()));
-                    break;
-
-
-                case DataType.Head.CECR:
-                    Console.WriteLine("## LOG -- " + socket.RemoteEndPoint + " trying to create chatroom");
-                    if (ChatMana.AddChatroom(msg.Content[0]))
-                        Send<List<string>>(socket, new Message<List<string>>
-                                (DataType.Head.CECR, new List<string>() { "success" }));
-                    else
-                        Send<List<string>>(socket, new Message<List<string>>
-                                (DataType.Head.CECR, new List<string>() { "Chatroom already exist" }));
-                    break;
-
-                case DataType.Head.JICM:
-                    Console.WriteLine("## LOG -- " + socket.RemoteEndPoint + " trying to join chatroom");
                     break;
 
                 //客户端下线

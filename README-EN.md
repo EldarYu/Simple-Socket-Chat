@@ -7,7 +7,6 @@ Used to learn the network programming and multi-threaded programming chat room a
 
  * ~~Simple chat function~~
  * ~~Authentication~~
- * Chatroom
 
 # Environment
 

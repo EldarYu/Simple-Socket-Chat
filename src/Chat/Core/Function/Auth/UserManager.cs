@@ -40,7 +40,7 @@ namespace Core.Function.Auth
         /// <param name="name"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public bool Login(string name,string password)
+        public bool Login(string name, string password)
         {
             foreach (var item in UserList)
             {
@@ -66,7 +66,7 @@ namespace Core.Function.Auth
                     return false;
             }
 
-            UserList.Add(new User(name, password, null));
+            UserList.Add(new User(name, password));
             return true;
         }
 

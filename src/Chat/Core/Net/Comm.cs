@@ -9,7 +9,7 @@ namespace Core.Net
     /// <summary>
     /// 服务器与客户端公共部分
     /// </summary>
-    public class Comm
+    public abstract class Comm
     {
         private IPEndPoint ipEndPoint;
         private bool status;

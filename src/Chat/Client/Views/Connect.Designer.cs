@@ -197,10 +197,12 @@
             // 
             // tb_password
             // 
+            this.tb_password.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tb_password.Location = new System.Drawing.Point(158, 109);
             this.tb_password.Name = "tb_password";
+            this.tb_password.PasswordChar = '*';
             this.tb_password.ReadOnly = true;
-            this.tb_password.Size = new System.Drawing.Size(266, 22);
+            this.tb_password.Size = new System.Drawing.Size(266, 24);
             this.tb_password.TabIndex = 3;
             // 
             // label_password
@@ -214,10 +216,11 @@
             // 
             // tb_name
             // 
+            this.tb_name.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tb_name.Location = new System.Drawing.Point(158, 47);
             this.tb_name.Name = "tb_name";
             this.tb_name.ReadOnly = true;
-            this.tb_name.Size = new System.Drawing.Size(266, 22);
+            this.tb_name.Size = new System.Drawing.Size(266, 24);
             this.tb_name.TabIndex = 1;
             // 
             // label_name

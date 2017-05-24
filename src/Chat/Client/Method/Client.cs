@@ -109,11 +109,6 @@ namespace Client.Method
                         Console.WriteLine(msg.Content[0].ToString());
                         break;
 
-                    //聊天室列表数据
-                    case DataType.Head.GCRL:
-                        Session.Add(msg);
-                        break;
-
                     //在线用户列表数据
                     case DataType.Head.GUL:
                         Session.Add(msg);
@@ -124,13 +119,8 @@ namespace Client.Method
                         Session.Add(msg);
                         break;
 
-                    //注册结果
+                    //注册验证结果
                     case DataType.Head.REGI:
-                        Session.Add(msg);
-                        break;
-
-                    //创建聊天室结果
-                    case DataType.Head.CECR:
                         Session.Add(msg);
                         break;
                 }

@@ -32,8 +32,6 @@ namespace Client.Views
             {
                 Client.Send<List<string>>
                     (new Message<List<string>>(DataType.Head.GUL, new List<string>() { }));
-                Client.Send<List<string>>
-                    (new Message<List<string>>(DataType.Head.GCRL, new List<string>() { }));
                 Thread.Sleep(1000);
             }
         }
@@ -43,57 +41,24 @@ namespace Client.Views
             while (true)
             {
                 Message<List<string>> usrList = Client.GetSession(DataType.Head.GUL);
-                Message<List<string>> chatromList = Client.GetSession(DataType.Head.GCRL);
-                Message<List<string>> cecrReply = Client.GetSession(DataType.Head.CECR);
                 if (usrList != null)
                 {
                     this.Invoke(new MethodInvoker(delegate ()
                     {
+                        var sclectItem = listBox_userList.SelectedItem;
                         listBox_userList.Items.Clear();
                         foreach (var item in usrList.Content)
                         {
                             listBox_userList.Items.Add(item);
                         }
+                        if (sclectItem != null)
+                            listBox_userList.SelectedItem = sclectItem;
                     }));
-                }
-                if (chatromList != null)
-                {
-                    if (chatromList.Content != null)
-                    {
-                        this.Invoke(new MethodInvoker(delegate ()
-                        {
-                            cb_chatroomList.Items.Clear();
-                            foreach (var item in chatromList.Content)
-                            {
-                                cb_chatroomList.Items.Add(item);
-                            }
-                        }));
-                    }
-                }
-                if(cecrReply!=null)
-                {
-                    if (cecrReply.Content[0] == "success")
-                        MessageBox.Show("Create successful");
-                    else
-                        MessageBox.Show(cecrReply.Content[0]);
                 }
                 Thread.Sleep(1000);
             }
         }
 
-
-
-        private void btn_createChatroom_Click(object sender, EventArgs e)
-        {
-            if(tb_chatroom.Text!="")
-            {
-                Message<List<string>> msg =
-                   new Message<List<string>>(DataType.Head.CECR, new List<string>() { tb_chatroom.Text });
-                Client.Send<List<string>>(msg);
-                tb_chatroom.Text = "";
-            }
-
-        }
 
         private void btn_sendMsg_Click(object sender, EventArgs e)
         {

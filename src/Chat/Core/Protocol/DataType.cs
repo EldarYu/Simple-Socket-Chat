@@ -18,11 +18,6 @@
             GUL,
 
             /// <summary>
-            /// 获取聊天室列表
-            /// </summary>
-            GCRL,
-
-            /// <summary>
             /// 用户登陆
             /// </summary>
             LOGN,
@@ -31,16 +26,6 @@
             /// 用户注册
             /// </summary>
             REGI,
-
-            /// <summary>
-            /// 加入聊天室
-            /// </summary>
-            JICM, 
-           
-            /// <summary>
-            /// 创建聊天室
-            /// </summary>
-            CECR,
 
             /// <summary>
             /// 用户下线
