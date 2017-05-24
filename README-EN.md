@@ -5,8 +5,8 @@
 # Description
 Used to learn the network programming and multi-threaded programming chat room applet, with the following features
 
- * ~~Simple chat function~~
- * ~~Authentication~~
+ * Simple chat feature
+ * Authentication
 
 # Environment
 
