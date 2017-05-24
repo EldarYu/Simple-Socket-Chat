@@ -97,7 +97,6 @@
             0,
             0});
             this.nud_port.Name = "nud_port";
-            this.nud_port.ReadOnly = true;
             this.nud_port.Size = new System.Drawing.Size(50, 22);
             this.nud_port.TabIndex = 4;
             this.nud_port.Value = global::Client.Properties.Settings.Default.port;

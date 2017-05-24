@@ -4,7 +4,6 @@ using System.Threading;
 using System.Net.Sockets;
 using Core.Protocol;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace Client.Method

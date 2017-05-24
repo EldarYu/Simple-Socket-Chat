@@ -3,10 +3,14 @@
 # ** This article is produced by Google Translate, my poor english......   (-*v*-)  **
 
 # Description
-Used to learn the network programming and multi-threaded programming chat room applet, is expected to complete the following functions
+Used to learn the network programming and multi-threaded programming chat room applet, with the following features
 
  * ~~Simple chat function~~
  * ~~Authentication~~
+
+![](http://omwwxwojn.bkt.clouddn.com/chatprogram_demoimg1.gif)
+
+![](http://omwwxwojn.bkt.clouddn.com/chatprogram_demoimg2.gif)
 
 # Environment
 
