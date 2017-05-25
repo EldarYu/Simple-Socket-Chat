@@ -42,6 +42,11 @@ namespace Client.Method
             this.Processer.Abort();
         }
 
+        /// <summary>
+        /// 获取数据队列中的指定数据
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
         public Message<List<string>> GetSession(DataType.Head head)
         {
             Message<List<string>> temp = null;

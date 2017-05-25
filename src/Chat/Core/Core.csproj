@@ -42,13 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\SerializationException.cs" />
-    <Compile Include="Function\Auth\User.cs" />
-    <Compile Include="Function\Auth\UserManager.cs" />
+    <Compile Include="Features\Auth\User.cs" />
+    <Compile Include="Features\Auth\UserManager.cs" />
     <Compile Include="Exceptions\IOException.cs" />
     <Compile Include="Exceptions\SocketException.cs" />
     <Compile Include="Exceptions\UnknowException.cs" />
-    <Compile Include="Function\ConsoleHelper.cs" />
-    <Compile Include="Function\FileHelper.cs" />
+    <Compile Include="Features\ConsoleHelper.cs" />
+    <Compile Include="Features\FileHelper.cs" />
     <Compile Include="Net\Client.cs" />
     <Compile Include="Net\Comm.cs" />
     <Compile Include="Net\Server.cs" />
