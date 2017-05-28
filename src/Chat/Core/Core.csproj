@@ -30,15 +30,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\SerializationException.cs" />
@@ -47,8 +52,8 @@
     <Compile Include="Exceptions\IOException.cs" />
     <Compile Include="Exceptions\SocketException.cs" />
     <Compile Include="Exceptions\UnknowException.cs" />
-    <Compile Include="Features\ConsoleHelper.cs" />
-    <Compile Include="Features\FileHelper.cs" />
+    <Compile Include="Features\ControlWriter.cs" />
+    <Compile Include="Features\Serialization.cs" />
     <Compile Include="Net\Client.cs" />
     <Compile Include="Net\Comm.cs" />
     <Compile Include="Net\Server.cs" />

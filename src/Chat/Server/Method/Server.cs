@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Core.Protocol;
+using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Threading;
 using System.Net.Sockets;
-using Core.Protocol;
-using Core.Function.Auth;
-using Server.Properties;
+using Core.Features.Auth;
+using System.Net;
 using System.IO;
+using Server.Properties;
+using System.Threading;
 
 namespace Server.Method
 {
     /// <summary>
-    /// 服务器
+    /// 服务器端
     /// </summary>
     public class Server : Core.Net.Server
     {

@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="Client.Views.Chat"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Client.Views"
+             mc:Ignorable="d" Width="604.8" Height="419.8">
+    <Grid Margin="5" Loaded="Grid_Loaded">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="46*"/>
+            <ColumnDefinition Width="73*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="listbox_usr" HorizontalAlignment="Left" Height="390" Margin="10,10,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tb_message" HorizontalAlignment="Left" Height="330" Margin="140,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="440" Grid.ColumnSpan="2" TextChanged="tb_message_TextChanged" VerticalScrollBarVisibility="Auto"/>
+        <TextBox x:Name="tb_sendMessage" HorizontalAlignment="Left" Height="48" Margin="140,350,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="340" Grid.ColumnSpan="2"/>
+        <Button x:Name="btn_send" Content="Send" HorizontalAlignment="Left" Margin="265,350,0,0" VerticalAlignment="Top" Width="85" Height="45" Grid.Column="1" Click="btn_send_Click"/>
+
+    </Grid>
+</UserControl>

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Core.Function.Auth
+namespace Core.Features.Auth
 {
     /// <summary>
     /// 用户列表
@@ -8,7 +8,7 @@ namespace Core.Function.Auth
     public class UserManager
     {
         private List<User> userList;
-        private FileHelper fileHelper;
+        private Serialization serialization;
 
         /// <summary>
         /// 用户表
@@ -30,7 +30,7 @@ namespace Core.Function.Auth
         /// </summary>
         public UserManager(string path)
         {
-            fileHelper = new FileHelper();
+            serialization = new Serialization();
             Init(path);
         }
 
@@ -75,7 +75,7 @@ namespace Core.Function.Auth
         /// </summary>
         public void Init(string path)
         {
-            List<User> temp = fileHelper.Load<User>(path);
+            List<User> temp = serialization.Load<User>(path);
             if (temp != null)
                 UserList = temp;
             else
@@ -88,7 +88,7 @@ namespace Core.Function.Auth
         /// <returns></returns>
         public bool Save(string path)
         {
-            if (fileHelper.Save(UserList, path))
+            if (serialization.Save(UserList, path))
                 return true;
             return false;
         }

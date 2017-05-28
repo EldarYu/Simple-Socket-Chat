@@ -1,16 +1,13 @@
-﻿using System;
-using System.Net;
-using System.Threading;
-using System.Net.Sockets;
-using Core.Protocol;
+﻿using Core.Protocol;
+using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using System.Windows;
 
 namespace Client.Method
 {
-    /// <summary>
-    /// 客户端
-    /// </summary>
     public class Client : Core.Net.Client
     {
         public List<Message<List<string>>> Session;

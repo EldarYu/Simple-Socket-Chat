@@ -1,18 +1,19 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Threading;
-using System.Windows.Forms;
+using System.Windows.Controls;
 
-namespace Core.Function
+namespace Core.Features
 {
     /// <summary>
     /// 重写TextWriter,将TextBox变为Console
     /// </summary>
-    public class ConsoleHelper: System.IO.TextWriter
+    public class ControlWriter : TextWriter
     {
         private TextBox _textBox { set; get; }
 
-        public ConsoleHelper(TextBox textBox)
+        public ControlWriter(TextBox textBox)
         {
             this._textBox = textBox;
             Console.SetOut(this);
@@ -20,14 +21,12 @@ namespace Core.Function
 
         public override void Write(string value)
         {
-            if (_textBox.IsHandleCreated)
-                _textBox.BeginInvoke(new ThreadStart(() => _textBox.AppendText(value + " ")));
+            _textBox.Dispatcher.BeginInvoke(new ThreadStart(() => _textBox.AppendText(value + " ")));
         }
 
         public override void WriteLine(string value)
         {
-            if (_textBox.IsHandleCreated)
-                _textBox.BeginInvoke(new ThreadStart(() => _textBox.AppendText(value + "\r\n")));
+            _textBox.Dispatcher.BeginInvoke(new ThreadStart(() => _textBox.AppendText(value + "\r\n")));
         }
 
         public override Encoding Encoding

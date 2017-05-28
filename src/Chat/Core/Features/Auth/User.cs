@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.Function.Auth
+namespace Core.Features.Auth
 {
     /// <summary>
     /// 用户信息,可串行化存放在文件中

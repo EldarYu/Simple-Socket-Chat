@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Core.Function
+namespace Core.Features
 {
     /// <summary>
     /// 串行化与反串行化操作
     /// </summary>
-    public class FileHelper
+    public class Serialization
     {
         /// <summary>
         /// 串行化对象写入到文件中

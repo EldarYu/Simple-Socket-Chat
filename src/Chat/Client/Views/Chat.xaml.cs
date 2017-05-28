@@ -1,13 +1,15 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Threading;
+using System.Windows.Controls;
 using Client.Method;
 using Core.Protocol;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace Client.Views
 {
-    public partial class Chat : Form
+    /// <summary>
+    /// Chat.xaml 的交互逻辑
+    /// </summary>
+    public partial class Chat : UserControl
     {
         public Method.Client Client;
 
@@ -17,15 +19,14 @@ namespace Client.Views
             Client = client;
         }
 
-        private void Chat_Load(object sender, EventArgs e)
+        private void Grid_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            TextBoxWriter tw = new TextBoxWriter(tb_message);
+            ControlWriter tw = new ControlWriter(tb_message);
             Thread Request = new Thread(RequestData);
             Thread Process = new Thread(ProcessData);
             Request.Start();
             Process.Start();
         }
-
         private void RequestData()
         {
             while (true)
@@ -43,40 +44,36 @@ namespace Client.Views
                 Message<List<string>> usrList = Client.GetSession(DataType.Head.GUL);
                 if (usrList != null)
                 {
-                    this.Invoke(new MethodInvoker(delegate ()
+                    this.Dispatcher.BeginInvoke(new ThreadStart( ()=>
                     {
-                        var sclectItem = listBox_userList.SelectedItem;
-                        listBox_userList.Items.Clear();
+                        var sclectItem = listbox_usr.SelectedItem;
+                        listbox_usr.Items.Clear();
                         foreach (var item in usrList.Content)
                         {
-                            listBox_userList.Items.Add(item);
+                            listbox_usr.Items.Add(item);
                         }
                         if (sclectItem != null)
-                            listBox_userList.SelectedItem = sclectItem;
+                            listbox_usr.SelectedItem = sclectItem;
                     }));
                 }
                 Thread.Sleep(1000);
             }
         }
 
-
-        private void btn_sendMsg_Click(object sender, EventArgs e)
+        private void btn_send_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (tb_sendMsg.Text != "")
+            if (tb_sendMessage.Text != "")
             {
                 Message<List<string>> msg =
-                    new Message<List<string>>(DataType.Head.MSG, new List<string>() { tb_sendMsg.Text });
+                    new Message<List<string>>(DataType.Head.MSG, new List<string>() { tb_sendMessage.Text });
                 Client.Send<List<string>>(msg);
-                tb_sendMsg.Text = "";
+                tb_sendMessage.Text = "";
             }
         }
 
-        private void Chat_FormClosing(object sender, FormClosingEventArgs e)
+        private void tb_message_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Message<List<string>> msg =
-                new Message<List<string>>(DataType.Head.QUIT, null);
-            Client.Send<List<string>>(msg);
-            Environment.Exit(0);
+            tb_message.ScrollToEnd();
         }
     }
 }

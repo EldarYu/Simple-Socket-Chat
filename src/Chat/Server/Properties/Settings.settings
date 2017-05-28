@@ -2,23 +2,17 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Server.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="ip1" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">127</Value>
+    <Setting Name="dataPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">data/</Value>
     </Setting>
-    <Setting Name="ip2" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">0</Value>
+    <Setting Name="ipAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
     </Setting>
-    <Setting Name="ip3" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="ip4" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">1</Value>
-    </Setting>
-    <Setting Name="port" Type="System.Decimal" Scope="User">
+    <Setting Name="port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">808</Value>
     </Setting>
-    <Setting Name="dataPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">data/</Value>
+    <Setting Name="maxBacklog" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
     </Setting>
   </Settings>
 </SettingsFile>
