@@ -6,7 +6,7 @@ using Core.Features.Auth;
 using System.Net;
 using System.IO;
 using Server.Properties;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace Server.Method
 {
@@ -53,7 +53,7 @@ namespace Server.Method
             this.MaxBackLog = maxBacklog;
             if (!this.Start())
                 return false;
-            this.Listener = new Thread(Listen);
+            this.Listener = new Task(Listen);
             this.Listener.Start();
             return true;
         }
@@ -64,9 +64,6 @@ namespace Server.Method
         public void StopRun()
         {
             this.Stop();
-            this.Listener.Abort();
-            if (this.Processer != null)
-                this.Processer.Abort();
         }
 
         /// <summary>
@@ -81,7 +78,7 @@ namespace Server.Method
                     Socket clientSocket;
                     clientSocket = this.ServerSocket.Accept();
                     Console.WriteLine("## CONNECT -- " + clientSocket.RemoteEndPoint + " is connected");
-                    this.Processer = new Thread(() => ProcessData(clientSocket));
+                    this.Processer = new Task(() => ProcessData(clientSocket));
                     this.Processer.Start();
                 }
                 catch (SocketException e)

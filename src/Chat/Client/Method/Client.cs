@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows;
-
+using System.Threading.Tasks;
 namespace Client.Method
 {
     public class Client : Core.Net.Client
@@ -25,7 +25,7 @@ namespace Client.Method
         {
             if (!this.Connect())
                 return false;
-            this.Processer = new Thread(ProcessData);
+            this.Processer = new Task(ProcessData);
             this.Processer.Start();
             return true;
         }
@@ -36,7 +36,6 @@ namespace Client.Method
         public void StopRun()
         {
             this.Stop();
-            this.Processer.Abort();
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using System.Net.Sockets;
 using System.Threading;
 using System;
+using System.Threading.Tasks;
 
 namespace Core.Net
 {
@@ -13,12 +14,12 @@ namespace Core.Net
         /// <summary>
         /// 监听主进程
         /// </summary>
-        protected Thread Listener;
+        protected Task Listener;
 
         /// <summary>
         /// 数据处理进程
         /// </summary>
-        protected Thread Processer;
+        protected Task Processer;
 
         public Socket ServerSocket;
         private int maxBackLog;

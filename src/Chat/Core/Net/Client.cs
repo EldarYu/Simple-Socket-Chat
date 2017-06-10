@@ -17,7 +17,7 @@ namespace Core.Net
         /// <summary>
         /// 数据处理进程
         /// </summary>
-        protected Thread Processer;
+        protected Task Processer;
 
         protected Socket ClientSocket;
 
